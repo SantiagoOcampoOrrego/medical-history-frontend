@@ -1,0 +1,38 @@
+<p-panel >
+    <ng-template pTemplate="header">
+        <h4 style="margin: 0%;">Informacion personal del doctor</h4>
+    </ng-template>
+    <form [formGroup]="doctorForm" autocomplete="off">
+        <div class="p-fluid formgrid grid">
+            <div class="field col-12 md:col-6">
+                <label for="doctor-id">Identificacion</label>
+                <input id="doctor-id" type="number" placeholder="Ingrese el numero de identificacion" formControlName="doctorId" pInputText> 
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="firstname">Nombre</label>
+                <input id="firstname" type="text" placeholder="Ingrese el nombre" formControlName="firstName" pInputText> 
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="lastname">Apellido</label>
+                <input id="lastname" type="text" placeholder="Ingrese los apellidos" formControlName="lastName" pInputText> 
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="address">Direccion</label>
+                <input id="address" type="text" placeholder="Ingrese la direccion" formControlName="address" pInputText> 
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="phone-number">Numero de telefono</label>
+                <input id="phone-number" type="number" placeholder="Ingrese el numero de telefono" formControlName="phoneNumber" pInputText> 
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="specialty">Especialidad</label>
+                <input id="specialty" type="text" placeholder="Ingrese la especialidad del doctor" formControlName="specialty" pInputText> 
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <div class="flex align-items-end justify-content-end">
+            <p-button label="Crear" (click)="saveDoctor()"></p-button>
+        </div>
+    </ng-template>
+</p-panel>

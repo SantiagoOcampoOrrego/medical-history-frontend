@@ -1,0 +1,58 @@
+<p-panel >
+    <ng-template pTemplate="header">
+        <h4 style="margin: 0%;">Historia clinica del paciente</h4>
+    </ng-template>
+    <form [formGroup]="historyForm" autocomplete="off">
+        <div class="p-fluid formgrid grid">
+            <div class="field col-12">
+                <label for="patient-id">Identificacion del paciente</label>
+                <input id="patient-id" type="number" placeholder="Ingrese el numero de identificacion" formControlName="patientId" pInputText>
+            </div>
+            <p-fieldset class="field col-12 md:col-6" legend="Medicacion actual">
+                <div class="p-fieldset-content">
+                    <label for="current-medication">El paciente esta tomando algun medicamento? cual? </label>
+                    <textarea id="current-medication" [rows]="4" [cols]="30" [autoResize]="true" formControlName="currentMedication" pInputTextarea></textarea>
+                </div>
+            </p-fieldset>
+            <p-fieldset class="field col-12 md:col-6" legend="Habitos">
+                <div class="p-fieldset-content">
+                    <div class="field-checkbox col-12 md:col-6">
+                        <p-checkbox [value]="false" [binary]="true" inputId="do-exercise" formControlName="doExercise"></p-checkbox>
+                        <label for="do-exercise">El paciente practica deporte?</label>
+                    </div>
+                    <div class="field-checkbox col-12 md:col-6">
+                        <p-checkbox [value]="false" [binary]="true" inputId="alcohol" formControlName="alcoholConsumption"></p-checkbox>
+                        <label for="alcohol">El paciente es consumidor frecuente de alcohol?</label>
+                    </div>
+                    <div class="field-checkbox col-12 md:col-6">
+                        <p-checkbox [value]="false" [binary]="true" inputId="smoker" formControlName="smoker"></p-checkbox>
+                        <label for="smoker">El paciente es fumador?</label>
+                    </div>
+                </div>
+            </p-fieldset>                      
+            <p-fieldset class="field col-12 md:col-6" legend="Peso y talla">
+                <div class="p-inputnumber">
+                    <label for="weight">Peso</label>
+                    <p-inputNumber [inputStyleClass]="'p-inputnumber-input'" inputId="weight" mode="decimal" [maxFractionDigits]="2" [maxlength]="5" formControlName="weight">
+                    </p-inputNumber>
+                </div>
+                <div class="p-inputnumber">
+                    <label for="height">Talla</label>
+                    <p-inputNumber [inputStyleClass]="'p-inputnumber-input'" inputId="height" mode="decimal" [maxFractionDigits]="2" [maxlength]="5" formControlName="height">
+                    </p-inputNumber>
+                </div>
+            </p-fieldset>
+            <p-fieldset class="field col-12 md:col-6" legend="Comentario adicional">
+                <div class="p-fieldset-content">
+                    <label for="additional-comment">El paciente esta tomando algun medicamento? cual? </label>
+                    <textarea id="additional-comment" [rows]="4" [cols]="30" [autoResize]="true" formControlName="additionalComment" pInputTextarea></textarea>
+                </div>
+            </p-fieldset>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <div class="flex align-items-end justify-content-end">
+            <p-button label="Crear" (click)="mostrar()"></p-button>
+        </div>
+    </ng-template>
+</p-panel>

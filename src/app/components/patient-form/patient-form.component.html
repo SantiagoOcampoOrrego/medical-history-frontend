@@ -1,0 +1,42 @@
+<p-panel >
+    <ng-template pTemplate="header">
+        <h4 style="margin: 0%;">Informacion personal del paciente</h4>
+    </ng-template>
+    <form [formGroup]="patientForm" autocomplete="off">
+        <div class="p-fluid formgrid grid">
+            <div class="field col-12 md:col-6">
+                <label for="patient-id">Identificacion</label>
+                <input id="patient-id" type="number" placeholder="Ingrese el numero de identificacion" formControlName="patientId" pInputText> 
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="firstname">Nombre</label>
+                <input id="firstname" type="text" placeholder="Ingrese el nombre" formControlName="firstName" pInputText> 
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="lastname">Apellido</label>
+                <input id="lastname" type="text" placeholder="Ingrese los apellidos" formControlName="lastName" pInputText> 
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="birth-date">Fecha de nacimiento</label>
+                <p-calendar id="birth-date" [maxDate]="maxDate" [readonlyInput]="true" placeholder="Ingrese la fecha de nacimiento" formControlName="birthDate"></p-calendar>
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="address">Direccion</label>
+                <input id="address" type="text" placeholder="Ingrese la direccion" formControlName="address" pInputText> 
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="phone-number">Numero de telefono</label>
+                <input id="phone-number" type="number" placeholder="Ingrese el numero de telefono" formControlName="phoneNumber" pInputText> 
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="gender">Sexo</label>
+                <p-dropdown id="gender" [options]="genderList" formControlName="gender"></p-dropdown>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <div class="flex align-items-end justify-content-end">
+            <p-button label="Crear" (click)="savePatient()"></p-button>
+        </div>
+    </ng-template>
+</p-panel>
