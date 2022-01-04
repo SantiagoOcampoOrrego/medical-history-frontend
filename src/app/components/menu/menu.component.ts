@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class MenuComponent implements OnInit {
 
   items: MenuItem[];
   selectedItem: MenuItem;
@@ -16,15 +16,17 @@ export class DashboardComponent implements OnInit {
       {
           label:'Pacientes',
           icon:'pi pi-fw pi-users',
-          routerLink: "pacientes"
+          routerLink: "../pacientes"
       },
       {
           label:'Procedimientos',
           icon:'pi pi-fw pi-check-square',
+          routerLink: "../procedimientos"
       },
       {
           label:'Doctores',
           icon:'pi pi-fw pi-briefcase',
+          routerLink: "../doctores"
       },
       {
           label:'Salir',
@@ -36,7 +38,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
   }
 
 }

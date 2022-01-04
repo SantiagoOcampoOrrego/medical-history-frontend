@@ -6,5 +6,4 @@ export class Patient {
     public address: string | undefined;
     public phoneNumber: string | undefined;
     public gender: string | undefined;
-    
 }

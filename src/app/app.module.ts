@@ -8,13 +8,11 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {InputTextModule} from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import {ButtonModule} from 'primeng/button';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PatientFormComponent } from './components/patient-form/patient-form.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DoctorFormComponent } from './components/doctor-form/doctor-form.component';
 import {CardModule} from 'primeng/card';
 import {TabMenuModule} from 'primeng/tabmenu';
-import {MenuItem} from 'primeng/api';
 import {PanelModule} from 'primeng/panel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -24,29 +22,33 @@ import { HistoryFormComponent } from './components/history-form/history-form.com
 import {CheckboxModule} from 'primeng/checkbox';
 import {FieldsetModule} from 'primeng/fieldset';
 import {InputTextareaModule} from 'primeng/inputtextarea';
-import { CreatePatientComponent } from './components/create-patient/create-patient.component';
 import {StepsModule} from 'primeng/steps';
 import { ToastModule } from 'primeng/toast';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {MenubarModule} from 'primeng/menubar';
-import { PatientTableComponent } from './components/patient-table/patient-table.component';
 import { PatientsComponent } from './components/patients/patients.component';
 import {ToolbarModule} from 'primeng/toolbar';
 import {TableModule} from 'primeng/table';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {DialogModule} from 'primeng/dialog';
+import { MenuComponent } from './components/menu/menu.component';
+import { DoctorsComponent } from './components/doctors/doctors.component';
+import { ProceduresComponent } from './components/procedures/procedures.component';
+import { ProcedureFormComponent } from './components/procedure-form/procedure-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent,
     PatientFormComponent,
     DoctorFormComponent,
     HistoryFormComponent,
-    CreatePatientComponent,
-    PatientTableComponent,
-    PatientsComponent
+    PatientsComponent,
+    MenuComponent,
+    DoctorsComponent,
+    ProceduresComponent,
+    ProcedureFormComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +75,8 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
     MenubarModule,
     ToolbarModule,
     TableModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    DialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
