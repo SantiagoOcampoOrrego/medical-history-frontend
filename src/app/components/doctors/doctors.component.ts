@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Doctor } from 'src/app/models/doctor';
 import { DoctorService } from 'src/app/services/doctor.service';
@@ -26,9 +27,11 @@ export class DoctorsComponent implements OnInit {
 
   doctorToEdit: any;
 
-  constructor(private doctorService: DoctorService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+  constructor(private doctorService: DoctorService, private messageService: MessageService, private confirmationService: ConfirmationService, private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Doctores');
+
     this.doctorService.getAllDoctors().subscribe(res => {
       if(res) this.doctors = res;
     });

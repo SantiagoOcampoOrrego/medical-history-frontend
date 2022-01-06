@@ -1,4 +1,5 @@
 import { Component, OnInit, Output } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Patient } from 'src/app/models/patient';
 import { PatientService } from 'src/app/services/patient.service';
@@ -19,9 +20,11 @@ export class PatientsComponent implements OnInit {
 
   patient: Patient | undefined;
 
-  constructor(private patientService: PatientService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+  constructor(private patientService: PatientService, private messageService: MessageService, private confirmationService: ConfirmationService, private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Pacientes');
+
     this.patientService.getAllPatients().subscribe(data => {
       this.patients = data;
     })
