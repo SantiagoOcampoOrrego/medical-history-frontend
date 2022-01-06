@@ -26,8 +26,12 @@ export class ProcedureService {
     return this.http.delete<any>(environment.protocol + environment.apiUrl + "/procedimiento?id="+procedureId);
   }
 
-  public getAllProcedures(){
-    return this.http.get<any>(environment.protocol + environment.apiUrl + "/procedimiento/todos");
+  public getAllProceduresByHistoryId(historyId: number){
+    return this.http.get<any>(environment.protocol + environment.apiUrl + "/procedimiento/historia?id=" + historyId);
+  }
+
+  public getAllProceduresByDoctorId(doctorId: number){
+    return this.http.get<any>(environment.protocol + environment.apiUrl + "/procedimiento/doctor?id=" + doctorId);
   }
 
 }

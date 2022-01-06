@@ -1,0 +1,190 @@
+
+<ng-container *ngIf="history !== undefined">
+    <p-fieldset legend="Anamnesis" [toggleable]="true" styleClass="mt-2">
+        <div class="p-fluid formgrid grid">
+            <div class="col-12 flex justify-content-end">
+                <button pButton pRipple icon="pi pi-pencil" title="Editar alergia" class="p-button-rounded p-button-success mr-2" (click)="display = true; loadData()"></button>
+            </div>
+
+            <div class="col-12 md:col-6">
+                <ng-container *ngIf="history.currentMedication !== ''">
+                    <p-fieldset legend="Medicación actual">
+                        <div class="field p-fieldset-content">
+                            <textarea id="current-medication" [rows]='5' [autoResize]="true" [value]="history.currentMedication" [disabled]="true" pInputTextarea></textarea>
+                        </div>
+                    </p-fieldset>
+                </ng-container>
+            </div>
+    
+            <div class="col-12 md:col-6">
+                <ng-container *ngIf="history.additionalComment !== ''">
+                    <p-fieldset legend="Comentario adicional">
+                        <div class="field p-fieldset-content">
+                            <textarea id="additional-comment" [rows]='5' [autoResize]="true" [value]="history.additionalComment" [disabled]="true" pInputTextarea></textarea>
+                        </div>
+                    </p-fieldset>
+                </ng-container>
+            </div>
+            
+            <div class="col-12 md:col-6 mt-3">
+                <p-fieldset legend="Peso y talla">
+                    <div class="field">
+                        <label for="weight">Peso (kg)</label>
+                        <input  id="weight" 
+                        type="number" 
+                        [value]="history.weight"
+                        [readonly]="true"
+                        pInputText>
+                    </div>
+                    <div class="field">
+                        <label for="height">Talla (m)</label>
+                        <input  id="height" 
+                        type="number" 
+                        [value]="history.height"
+                        [readonly]="true"
+                        pInputText>
+                    </div>
+                </p-fieldset>
+            </div>
+    
+            <div class="col-12 md:col-6 mt-3">
+                <p-fieldset legend="Hábitos saludables y no saludables">
+                    <div class="p-fieldset-content">
+                        <div class="field-checkbox">
+                            <ng-container *ngIf="history.doExercise; else doExerciseFalse">
+                                <p-checkbox [binary]="true" inputId="do-exercise-view" [readonly]="true" [(ngModel)]="real"></p-checkbox>
+                            </ng-container>
+                            <ng-template #doExerciseFalse>
+                                <p-checkbox [binary]="true" inputId="do-exercise-view" [readonly]="true" [(ngModel)]="unreal"></p-checkbox>
+                            </ng-template>
+                            <label for="do-exercise-view">¿El paciente hace deporte?</label>
+                        </div>
+                        <div class="field-checkbox">
+                            <ng-container *ngIf="history.alcoholConsumption; else alcoholFalse">
+                                <p-checkbox [binary]="true" inputId="alcohol-view" [readonly]="true" [(ngModel)]="real"></p-checkbox>
+                            </ng-container>
+                            <ng-template #alcoholFalse>
+                                <p-checkbox [binary]="true" inputId="alcohol-view" [readonly]="true" [(ngModel)]="unreal"></p-checkbox>
+                            </ng-template>
+                            <label for="alcohol-view">¿El paciente es consumidor frecuente de alcohol?</label>
+                        </div>
+                        <div class="field-checkbox">
+                            <ng-container *ngIf="history.smoker; else smokerFalse">
+                                <p-checkbox [binary]="true" inputId="smoker-view" [readonly]="true" [(ngModel)]="real"></p-checkbox>
+                            </ng-container>
+                            <ng-template #smokerFalse>
+                                <p-checkbox [binary]="true" inputId="smoker-view" [readonly]="true" [(ngModel)]="unreal"></p-checkbox>
+                            </ng-template>
+                            <label for="smoker-view">¿El paciente es fumador?</label>
+                        </div>
+                    </div>
+                </p-fieldset> 
+            </div>
+            
+        </div>
+    </p-fieldset>
+
+</ng-container>
+
+<p-dialog [(visible)]="display" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '70vw'}">
+    <p-card>
+        <ng-template pTemplate="title">
+            Editar habitos
+        </ng-template>
+        <ng-template pTemplate="subtitle">
+            Por favor, ingresa los campos requeridos.
+        </ng-template>
+        <ng-template pTemplate="content">
+            <form [formGroup]="historyForm" autocomplete="off">
+                <div class="p-fluid formgrid grid">
+                    <div class="col-12 md:col-6">
+                        <p-fieldset legend="Medicación actual">
+                            <div class="field p-fieldset-content">
+                                <label for="current-medication">¿El paciente ha estado tomando algún medicamento? ¿Cuál? </label>
+                                <textarea id="current-medication" [rows]='5' [autoResize]="true" formControlName="currentMedication" pInputTextarea></textarea>
+                            </div>
+                        </p-fieldset>
+                    </div>
+    
+                    <div class="col-12 md:col-6">
+                        <p-fieldset legend="Comentario adicional">
+                            <div class="field p-fieldset-content">
+                                <label for="additional-comment">Indique información relevante sobre el paciente de ser necesario.</label>
+                                <textarea id="additional-comment" [rows]='5' [autoResize]="true" formControlName="additionalComment" pInputTextarea></textarea>
+                            </div>
+                        </p-fieldset>
+                    </div>
+                    
+                    <div class="col-12 md:col-6 mt-3">
+                        <p-fieldset legend="Peso y talla">
+                            <div class="field">
+                                <label for="weight">Peso (kg)<span class="required-input">*</span></label>
+                                <p-inputNumber  
+                                    inputId="weight" 
+                                    mode="decimal"
+                                    [minFractionDigits]="2" 
+                                    formControlName="weight"
+                                    [class.ng-dirty]="historyForm.get('weight')?.touched"
+                                    [class.ng-valid]="historyForm.get('weight')?.valid && (historyForm.get('weight')?.dirty || historyForm.get('weight')?.touched)"
+                                    [class.ng-invalid]="historyForm.get('weight')?.invalid && (historyForm.get('weight')?.dirty || historyForm.get('weight')?.touched)">
+                                </p-inputNumber>
+    
+                                <div    *ngIf="historyForm.get('weight')?.invalid && 
+                                        historyForm.get('weight')?.errors && 
+                                        (historyForm.get('weight')?.dirty || historyForm.get('weight')?.touched)">
+        
+                                    <small class="p-error"
+                                        *ngIf="historyForm.get('weight')?.hasError('required')">
+                                        Este campo es obligatorio.
+                                    </small>
+                
+                                    <small class="p-error"
+                                        *ngIf="historyForm.get('weight')?.hasError('max')">
+                                        Este campo no debe ser mayor a 300 kg.
+                                    </small>
+                
+                                    <small class="p-error"
+                                        *ngIf="historyForm.get('weight')?.hasError('min')">
+                                        Este campo no debe ser menor a 0,10 kg.
+                                    </small>
+    
+                                </div>
+    
+                            </div>
+                            <div class="field">
+                                <label for="height">Talla (m)<span class="required-input">*</span></label>
+                                <p-inputNumber inputId="height" mode="decimal" [minFractionDigits]="2" formControlName="height">
+                                </p-inputNumber>
+                            </div>
+                        </p-fieldset>
+                    </div>
+    
+                    <div class="col-12 md:col-6 mt-3">
+                        <p-fieldset legend="Hábitos saludables y no saludables">
+                            <div class="p-fieldset-content">
+                                <div class="field-checkbox">
+                                    <p-checkbox [value]="false" [binary]="true" inputId="do-exercise" formControlName="doExercise"></p-checkbox>
+                                    <label for="do-exercise">¿El paciente hace deporte?<span class="required-input">*</span></label>
+                                </div>
+                                <div class="field-checkbox">
+                                    <p-checkbox [value]="false" [binary]="true" inputId="alcohol" formControlName="alcoholConsumption"></p-checkbox>
+                                    <label for="alcohol">¿El paciente es consumidor frecuente de alcohol?<span class="required-input">*</span></label>
+                                </div>
+                                <div class="field-checkbox">
+                                    <p-checkbox [value]="false" [binary]="true" inputId="smoker" formControlName="smoker"></p-checkbox>
+                                    <label for="smoker">¿El paciente es fumador?<span class="required-input">*</span></label>
+                                </div>
+                            </div>
+                        </p-fieldset> 
+                    </div>
+                    
+                </div>
+            </form>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <div class="flex align-items-end justify-content-end">
+                <p-button [disabled]="historyForm.invalid" (onClick)="editHistory()" label="Editar" ></p-button>
+            </div>
+        </ng-template>
+    </p-card>
+</p-dialog>

@@ -16,21 +16,12 @@ export class MenuComponent implements OnInit {
       {
           label:'Pacientes',
           icon:'pi pi-fw pi-users',
-          routerLink: "../pacientes"
-      },
-      {
-          label:'Procedimientos',
-          icon:'pi pi-fw pi-check-square',
-          routerLink: "../procedimientos"
+          routerLink: "/pacientes"
       },
       {
           label:'Doctores',
           icon:'pi pi-fw pi-briefcase',
-          routerLink: "../doctores"
-      },
-      {
-          label:'Salir',
-          icon:'pi pi-fw pi-power-off'
+          routerLink: "/doctores"
       }
     ];
 

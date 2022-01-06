@@ -1,0 +1,52 @@
+<p-fieldset legend="Información Personal" [toggleable]="true" styleClass="mt-2">
+    <div class="p-fluid grid">
+        <div class="field col-12 md:col-6">
+            <label for="patient-id">Identificación</label>
+            <input  id="patient-id" 
+                    type="number" 
+                    [value]="patient.patientId"
+                    [readonly]="true"
+                    pInputText>
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="name">Nombre del paciente</label>
+            <input  id="name" 
+                    type="text" 
+                    [value]="patient.firstName + ' ' + patient.lastName"
+                    [readonly]="true"
+                    pInputText>
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="birth-date">Fecha de nacimiento</label>
+            <input  id="birth-date" 
+                    type="text" 
+                    [value]="patient.birthDate"
+                    [readonly]="true"
+                    pInputText>
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="address">Dirección</label>
+            <input  id="address" 
+                    type="text" 
+                    [value]="patient.address"
+                    [readonly]="true"
+                    pInputText>
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="phone-number">Número de teléfono</label>
+            <input  id="phone-number" 
+                    type="number" 
+                    [value]="patient.phoneNumber"
+                    [readonly]="true"
+                    pInputText>
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="gender">Sexo</label>
+            <input  id="gender" 
+                    type="text" 
+                    [value]="patient.gender"
+                    [readonly]="true"
+                    pInputText>
+        </div>
+    </div>
+</p-fieldset>

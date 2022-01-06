@@ -1,0 +1,122 @@
+<p-card>
+    <ng-template pTemplate="title">
+        <div class="field">
+            <label for="switch" class="mr-2">¿El paciente tiene antecedentes de enfermedades familiares?</label>
+            <p-inputSwitch inputId="switch" [(ngModel)]="checked"></p-inputSwitch>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="content">
+        <div *ngIf="checked">
+            <div class="mb-2">
+                <p-toolbar>
+                    <div class="p-toolbar-group-left">
+                        <p-button (onClick)="display = true" label="Agregar" styleClass="p-button-success" ></p-button>
+                    </div>
+                </p-toolbar>
+            </div>
+
+            <p-table #dt [value]="diseases" [rows]="10" [paginator]="true" [globalFilterFields]="['diseaseName', 'relationship']" responsiveLayout="scroll" [rowHover]="true">
+                
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-content-between">
+                        <h2 class="m-0">Lista de enfermedades familiares</h2>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')" placeholder="Buscar..." />
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="relationship">Parentesco <p-sortIcon field="relationship"></p-sortIcon></th>
+                        <th pSortableColumn="diseaseName">Enfermedad <p-sortIcon field="diseaseName"></p-sortIcon></th>
+                        <th id="actions-header"> Acciones </th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-disease>
+                    <tr>
+                        <td>{{disease.relationship}}</td>
+                        <td>{{disease.diseaseName}}</td>
+                        <td>
+                            <div id="actions-buttons">
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteDiseaseMemory(disease)"></button>
+
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="summary">
+                    <div class="flex justify-content-between">
+                        En total hay {{diseases ? diseases.length : 0 }} enfermedades familiares.
+                    </div>
+                </ng-template>
+
+            </p-table>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-between">
+            <p-button label="Anterior" (onClick)="prevPage()" icon="pi pi-angle-left"></p-button>
+            <p-button label="Siguiente" (onClick)="saveDiseaseMemory()" icon="pi pi-angle-right" iconPos="right"></p-button>
+        </div>
+    </ng-template>
+</p-card>
+
+<p-dialog [(visible)]="display" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{height: '50vh'}">
+    <p-card>
+
+        <ng-template pTemplate="title">
+            Agregar enfermedad familiar
+        </ng-template>
+
+        <ng-template pTemplate="subtitle">
+            Por favor, ingresa los campos requeridos.
+        </ng-template>
+
+        <ng-template pTemplate="content">
+            <form [formGroup]="familiarForm" autocomplete="off">
+                <div class="p-fluid formgrid grid">
+                    <div class="field mr-2">
+                        <label for="relationship">Parentesco<span class="required-input">*</span></label>
+                        <p-dropdown id="relationship" [options]="relationshipList" formControlName="relationship"></p-dropdown>
+                    </div>
+                    <div class="field">
+                        <label for="diseaseName">Nombre de la enfermedad<span class="required-input">*</span></label>
+                        
+                        <input  id="diseaseName" 
+                                type="text" 
+                                placeholder="Ingrese el nombre de la enfermedad" 
+                                formControlName="diseaseName"
+                                [class.ng-dirty]="familiarForm.get('diseaseName')?.touched"
+                                [class.ng-valid]="familiarForm.get('diseaseName')?.valid && (familiarForm.get('diseaseName')?.dirty || familiarForm.get('diseaseName')?.touched)"
+                                [class.ng-invalid]="familiarForm.get('diseaseName')?.invalid && (familiarForm.get('diseaseName')?.dirty || familiarForm.get('diseaseName')?.touched)"
+                                pInputText />
+                        
+                        <div    *ngIf="familiarForm.get('diseaseName')?.invalid && 
+                                familiarForm.get('diseaseName')?.errors && 
+                                (familiarForm.get('diseaseName')?.dirty || familiarForm.get('diseaseName')?.touched)">
+            
+                            <small class="p-error"
+                                *ngIf="familiarForm.get('diseaseName')?.hasError('required')">
+                                Este campo es obligatorio.
+                            </small>
+            
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <div class="flex align-items-end justify-content-end">
+                <p-button [disabled]="familiarForm.invalid" (onClick)="addDiseaseMemory()" label="Agregar" ></p-button>
+            </div>
+        </ng-template>
+
+    </p-card>
+</p-dialog>

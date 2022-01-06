@@ -30,4 +30,8 @@ export class DrugAllergyService {
     return this.http.get<any>(environment.protocol + environment.apiUrl + "/medicamento-alergia/todos");
   }
 
+  public getAllDrugAllergiesByHistoryId(historyId: number){
+    return this.http.get<any>(environment.protocol + environment.apiUrl + "/medicamento-alergia/historia?id=" + historyId);
+  }
+
 }

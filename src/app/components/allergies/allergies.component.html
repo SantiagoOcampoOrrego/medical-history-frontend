@@ -1,0 +1,101 @@
+<p-card>
+    <ng-template pTemplate="title">
+        <div class="field">
+            <label for="switch" class="mr-2">¿El paciente tiene alergia con algún medicamento?</label>
+            <p-inputSwitch inputId="switch" [(ngModel)]="checked"></p-inputSwitch>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="content">
+        <div *ngIf="checked">
+            <div class="mb-2">
+                <p-toolbar>
+                    <div class="p-toolbar-group-left">
+                        <p-button (onClick)="display = true" label="Agregar" styleClass="p-button-success"></p-button>
+                    </div>
+                </p-toolbar>
+            </div>
+            <p-table #dt [value]="allergies" [rows]="10" [paginator]="true" [globalFilterFields]="['name']" responsiveLayout="scroll"
+                [(selection)]="selectedAllergies" styleClass="p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-content-between">
+                        <h2 class="m-0">Lista de alergias</h2>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')" placeholder="Buscar..." />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="name">Nombre del medicamento <p-sortIcon field="name"></p-sortIcon></th>
+                        <th id="actions-header"> Acciones </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-allergy>
+                    <tr>
+                        <td>{{allergy}}</td>
+                        <td id="actions-buttons">
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteAllergyMemory(allergy)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div class="flex justify-content-between">
+                        En total hay {{allergies ? allergies.length : 0 }} alergias.
+                    </div>
+                </ng-template>
+            </p-table>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-between">
+            <p-button label="Anterior" (onClick)="prevPage()" icon="pi pi-angle-left"></p-button>
+            <p-button label="Siguiente" (onClick)="saveAllergyMemory()" icon="pi pi-angle-right" iconPos="right"></p-button>
+        </div>
+    </ng-template>
+</p-card>
+
+<p-dialog [(visible)]="display" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+    <p-card>
+        <ng-template pTemplate="title">
+            Agregar alergia a medicamento
+        </ng-template>
+        <ng-template pTemplate="subtitle">
+            Por favor, ingresa los campos requeridos.
+        </ng-template>
+        <ng-template pTemplate="content">
+            <div class="p-fluid">
+                <div class="field">
+                    <label for="name">Nombre del medicamento<span class="required-input">*</span></label>
+                    
+                    <input  id="name" 
+                            type="text" 
+                            placeholder="Ingresa el nombre del medicamento"
+                            [formControl]='allergyName'
+                            [class.ng-dirty]="allergyName.touched"
+                            [class.ng-valid]="allergyName.valid && (allergyName.dirty || allergyName.touched)"
+                            [class.ng-invalid]="allergyName.invalid && (allergyName.dirty || allergyName.touched)" 
+                            pInputText/>
+                    
+                    <div    *ngIf="allergyName.invalid && 
+                            allergyName.errors && 
+                            (allergyName.dirty || allergyName.touched)">
+            
+                        <small class="p-error"
+                            *ngIf="allergyName.hasError('required')">
+                            Este campo es obligatorio.
+                        </small>
+            
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <div class="flex align-items-end justify-content-end">
+                <p-button [disabled]="allergyName.invalid" (onClick)="addAllergyMemory()" label="Agregar" ></p-button>
+            </div>
+        </ng-template>
+    </p-card>
+</p-dialog>

@@ -19,7 +19,7 @@ export class DoctorFormComponent implements OnInit {
     doctorId: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10,14}$')]),
     firstName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z][A-Za-z ]*')]),
     lastName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z][A-Za-z ]*')]),
-    address: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required, Validators.pattern('^[#.0-9a-zA-Z\s,-]+$')]),
     phoneNumber: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10,14}$')]),
     specialty: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z][A-Za-z ]*')])
   });

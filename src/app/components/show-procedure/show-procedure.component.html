@@ -1,0 +1,159 @@
+<ng-container *ngIf="procedures">
+    <p-fieldset legend="Procedimientos" [toggleable]="true">
+        <div class="mb-2">
+            <p-toolbar>
+                <div class="p-toolbar-group-left">
+                    <p-button (onClick)="display = true; procedureToEdit = undefined; procedureForm.reset()" label="Agregar" styleClass="p-button-success"></p-button>
+                </div>
+            </p-toolbar>
+        </div>
+        <p-table #dt [value]="procedures" [rows]="10" [paginator]="true" [globalFilterFields]="['name']" responsiveLayout="scroll" styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between">
+                    <h2 class="m-0">Lista de procedimientos</h2>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')" placeholder="Buscar..." />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="procedureTypeId">Tipo de procedimiento <p-sortIcon field="procedureTypeId"></p-sortIcon></th>
+                    <th pSortableColumn="procedureDate">Fecha del procedimiento <p-sortIcon field="procedureDate"></p-sortIcon></th>
+                    <th pSortableColumn="diagnosis">Diagnostico <p-sortIcon field="diagnosis"></p-sortIcon></th>
+                    <th pSortableColumn="treatment">Tratamiento <p-sortIcon field="treatment"></p-sortIcon></th>
+                    <th id="actions-header"> Acciones </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-procedure>
+                <tr>
+                    <td>{{ proceduresNames.get(procedure.procedureTypeId) }}</td>
+                    <td>{{ procedure.procedureDate | date: 'dd-MM-yyyy':'+0000' }}</td>
+                    <td>{{ procedure.diagnosis }}</td>
+                    <td>{{ procedure.treatment }}</td>
+                    <td id="actions-buttons">
+                        <button pButton pRipple icon="pi pi-pencil" title="Editar alergia" class="p-button-rounded p-button-success mr-2" (click)="display = true; procedureToEdit = procedure; loadData();"></button>
+                        <button pButton pRipple icon="pi pi-trash" title="Borrar alergia" class="p-button-rounded p-button-danger mr-2" (click)="deleteProcedure(procedure)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex justify-content-between">
+                    En total hay {{procedures ? procedures.length : 0 }} procedimientos.
+                </div>
+            </ng-template>
+        </p-table>
+    </p-fieldset>
+    <p-confirmDialog header="Confirmación" key="procedure" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+</ng-container>
+
+<p-dialog [(visible)]="display">
+    <p-card>
+        <ng-template pTemplate="title">
+            {{ procedureToEdit ? 'Editar procedimiento' : 'Agregar procedimiento' }}
+        </ng-template>
+        <ng-template pTemplate="subtitle">
+            Por favor, ingresa los campos requeridos.
+        </ng-template>
+        <ng-template pTemplate="content">
+            <form [formGroup]="procedureForm" autocomplete="off">
+                <div class="p-fluid formgrid grid">
+                    <div class="field col-12">
+                        <p-multiSelect [options]="doctors" formControlName="selectedDoctor" [selectionLimit]="1" optionLabel="doctorId" optionValue="doctorId"></p-multiSelect>
+                    </div>
+
+                    <div class="field col-12 md:col-6">
+                        <label for="procedureType">Tipo de procedimiento<span class="required-input">*</span></label>
+                        <p-dropdown id="procedureType" optionLabel="typeName" optionValue="typeId" [options]="procedureTypes!" formControlName="procedureTypeId"></p-dropdown>
+                    </div>
+
+                    <div class="field col-12 md:col-6">
+                        <label for="birth-date">Fecha del procedimiento<span class="required-input">*</span></label>
+                        <p-calendar id="birth-date" 
+                                    [maxDate]="maxDate" 
+                                    [readonlyInput]="true"
+                                    [style]="{'position': 'fixed', 'overflow': 'visible', 'z-index': '999'}"
+                                    placeholder="Ingrese la fecha del procedimiento" 
+                                    formControlName="procedureDate"
+                                    [class.ng-dirty]="procedureForm.get('procedureDate')?.touched"
+                                    [class.ng-valid]="procedureForm.get('procedureDate')?.valid && (procedureForm.get('procedureDate')?.dirty || procedureForm.get('procedureDate')?.touched)"
+                                    [class.ng-invalid]="procedureForm.get('procedureDate')?.invalid && (procedureForm.get('procedureDate')?.dirty || procedureForm.get('procedureDate')?.touched)"
+                                    ></p-calendar>
+        
+                        <div    *ngIf="procedureForm.get('procedureDate')?.invalid && 
+                                procedureForm.get('procedureDate')?.errors && 
+                                (procedureForm.get('procedureDate')?.dirty || procedureForm.get('procedureDate')?.touched)">
+        
+                            <small class="p-error"
+                                *ngIf="procedureForm.get('procedureDate')?.hasError('required')">
+                                Este campo es obligatorio.
+                            </small>
+        
+                        </div>
+        
+                    </div>
+
+                    <div class="field col-12">
+                        <label for="diagnosis">Diagnostico<span class="required-input">*</span></label>
+                        
+                        <textarea   id="diagnosis"
+                                    placeholder="Ingrese el diagnostico"
+                                    [rows]="3"
+                                    formControlName="diagnosis"
+                                    [class.ng-dirty]="procedureForm.get('diagnosis')?.touched"
+                                    [class.ng-valid]="procedureForm.get('diagnosis')?.valid && (procedureForm.get('diagnosis')?.dirty || procedureForm.get('diagnosis')?.touched)"
+                                    [class.ng-invalid]="procedureForm.get('diagnosis')?.invalid && (procedureForm.get('diagnosis')?.dirty || procedureForm.get('diagnosis')?.touched)"
+                                    pInputTextarea></textarea>
+                        
+                        <div    *ngIf="procedureForm.get('diagnosis')?.invalid && 
+                                procedureForm.get('diagnosis')?.errors && 
+                                (procedureForm.get('diagnosis')?.dirty || procedureForm.get('diagnosis')?.touched)">
+            
+                            <small class="p-error"
+                                *ngIf="procedureForm.get('diagnosis')?.hasError('required')">
+                                Este campo es obligatorio.
+                            </small>
+            
+                        </div>
+                    </div>
+    
+                    <div class="field col-12">
+                        <label for="treatment">Tratamiento<span class="required-input">*</span></label>
+                        
+                        <textarea   id="treatment"
+                                    placeholder="Ingrese el tratamiento"
+                                    [rows]="3" 
+                                    formControlName="treatment"
+                                    [class.ng-dirty]="procedureForm.get('treatment')?.touched"
+                                    [class.ng-valid]="procedureForm.get('treatment')?.valid && (procedureForm.get('treatment')?.dirty || procedureForm.get('treatment')?.touched)"
+                                    [class.ng-invalid]="procedureForm.get('treatment')?.invalid && (procedureForm.get('treatment')?.dirty || procedureForm.get('treatment')?.touched)"
+                                    pInputTextarea></textarea>
+                        
+                        <div    *ngIf="procedureForm.get('treatment')?.invalid && 
+                                procedureForm.get('treatment')?.errors && 
+                                (procedureForm.get('treatment')?.dirty || procedureForm.get('treatment')?.touched)">
+            
+                            <small class="p-error"
+                                *ngIf="procedureForm.get('treatment')?.hasError('required')">
+                                Este campo es obligatorio.
+                            </small>
+            
+                        </div>
+                    </div>
+    
+                </div>
+            </form>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <div class="flex align-items-end justify-content-end">
+                <ng-container *ngIf="procedureToEdit">
+                    <p-button [disabled]="procedureForm.invalid" (onClick)="editProcedure()" label="Editar" ></p-button>
+                </ng-container>
+                <ng-container *ngIf="!procedureToEdit">
+                    <p-button [disabled]="procedureForm.invalid" (onClick)="addProcedure()" label="Agregar" ></p-button>
+                </ng-container>
+            </div>
+        </ng-template>
+    </p-card>
+</p-dialog>

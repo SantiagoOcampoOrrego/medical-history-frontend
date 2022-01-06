@@ -1,174 +1,192 @@
-<p-panel >
-    <ng-template pTemplate="header">
-        <h4 class="m-0">Informacion personal del paciente</h4>
+<p-card>
+    <ng-template pTemplate="title">
+        Información personal del paciente
     </ng-template>
-    <form [formGroup]="patientForm" autocomplete="off">
-        <div class="p-fluid formgrid grid">
-            <div class="field col-12 md:col-6">
-                <label for="patient-id">Identificación<span class="required-input">*</span></label>
-                <input  id="patient-id" 
-                        type="number" 
-                        placeholder="Ingrese el numero de identificacion" 
-                        formControlName="patientId"
-                        [readonly]="isEdit"
-                        [style.background-color]="isEdit ? '#ccc': 'white'"
-                        [class.ng-dirty]="patientForm.get('patientId')?.touched"
-                        [class.ng-valid]="patientForm.get('patientId')?.valid && (patientForm.get('patientId')?.dirty || patientForm.get('patientId')?.touched)"
-                        [class.ng-invalid]="patientForm.get('patientId')?.invalid && (patientForm.get('patientId')?.dirty || patientForm.get('patientId')?.touched)"
-                        pInputText>
+    <ng-template pTemplate="subtitle">
+        Ingresa en el formulario la información requerida.
+    </ng-template>
+    <ng-template pTemplate="content">
+        <form [formGroup]="patientForm" autocomplete="off">
+            <div class="p-fluid formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label for="patient-id">Identificación<span class="required-input">*</span></label>
+                    <input  id="patient-id" 
+                            type="number" 
+                            placeholder="Ingrese el número de identificación" 
+                            formControlName="patientId"
+                            [readonly]="isEdit"
+                            [style.background-color]="isEdit ? '#ccc': 'white'"
+                            [class.ng-dirty]="patientForm.get('patientId')?.touched"
+                            [class.ng-valid]="patientForm.get('patientId')?.valid && (patientForm.get('patientId')?.dirty || patientForm.get('patientId')?.touched)"
+                            [class.ng-invalid]="patientForm.get('patientId')?.invalid && (patientForm.get('patientId')?.dirty || patientForm.get('patientId')?.touched)"
+                            pInputText>
+    
+                    <div    *ngIf="patientForm.get('patientId')?.invalid && 
+                            patientForm.get('patientId')?.errors && 
+                            (patientForm.get('patientId')?.dirty || patientForm.get('patientId')?.touched)">
+    
+                        <small class="p-error"
+                            *ngIf="patientForm.get('patientId')?.hasError('required')">
+                            Este campo es obligatorio.
+                        </small>
+    
+                        <small class="p-error"
+                            *ngIf="patientForm.get('patientId')?.hasError('pattern')">
+                            Este campo debe tener una longitud de 5 a 14 caracteres y no debe ser negativo.
+                        </small>
+    
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="firstname">Nombre<span class="required-input">*</span></label>
+                    <input  id="firstname" 
+                            type="text" 
+                            placeholder="Ingrese el nombre" 
+                            formControlName="firstName" 
+                            [class.ng-dirty]="patientForm.get('firstName')?.touched"
+                            [class.ng-valid]="patientForm.get('firstName')?.valid && (patientForm.get('firstName')?.dirty || patientForm.get('firstName')?.touched)"
+                            [class.ng-invalid]="patientForm.get('firstName')?.invalid && (patientForm.get('firstName')?.dirty || patientForm.get('firstName')?.touched)"
+                            pInputText>
+                    
+                    <div    *ngIf="patientForm.get('firstName')?.invalid && 
+                            patientForm.get('firstName')?.errors && 
+                            (patientForm.get('firstName')?.dirty || patientForm.get('firstName')?.touched)">
+    
+                        <small class="p-error"
+                            *ngIf="patientForm.get('firstName')?.hasError('required')">
+                            Este campo es obligatorio.
+                        </small>
+    
+                        <small class="p-error"
+                            *ngIf="patientForm.get('firstName')?.hasError('pattern')">
+                            {{ patientForm.get('firstName')?.value[0] == ' ' ? 'El campo debe iniciar con una letra.' : 'El nombre solo puede contener letras y espacios.' }}
+                        </small>
+    
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="lastname">Apellido<span class="required-input">*</span></label>
+                    <input  id="lastname" 
+                            type="text" 
+                            placeholder="Ingrese los apellidos" 
+                            formControlName="lastName" 
+                            [class.ng-dirty]="patientForm.get('lastName')?.touched"
+                            [class.ng-valid]="patientForm.get('lastName')?.valid && (patientForm.get('lastName')?.dirty || patientForm.get('lastName')?.touched)"
+                            [class.ng-invalid]="patientForm.get('lastName')?.invalid && (patientForm.get('lastName')?.dirty || patientForm.get('lastName')?.touched)"
+                            pInputText>
+                            
+                    <div    *ngIf="patientForm.get('lastName')?.invalid && 
+                            patientForm.get('lastName')?.errors && 
+                            (patientForm.get('lastName')?.dirty || patientForm.get('lastName')?.touched)">
+    
+                        <small class="p-error"
+                            *ngIf="patientForm.get('lastName')?.hasError('required')">
+                            Este campo es obligatorio.
+                        </small>
+    
+                        <small class="p-error"
+                            *ngIf="patientForm.get('lastName')?.hasError('pattern')">
+                            {{ patientForm.get('lastName')?.value[0] == ' ' ? 'El campo debe iniciar con una letra.' : 'El nombre solo puede contener letras y espacios.' }}
+                        </small>
+    
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="birth-date">Fecha de nacimiento<span class="required-input">*</span></label>
+                    <p-calendar id="birth-date" 
+                                [maxDate]="maxDate" 
+                                [readonlyInput]="true"
+                                [style]="{'position': 'fixed', 'overflow': 'visible', 'z-index': '999'}"
+                                placeholder="Ingrese la fecha de nacimiento" 
+                                formControlName="birthDate"
+                                [class.ng-dirty]="patientForm.get('birthDate')?.touched"
+                                [class.ng-valid]="patientForm.get('birthDate')?.valid && (patientForm.get('birthDate')?.dirty || patientForm.get('birthDate')?.touched)"
+                                [class.ng-invalid]="patientForm.get('birthDate')?.invalid && (patientForm.get('birthDate')?.dirty || patientForm.get('birthDate')?.touched)"
+                                ></p-calendar>
+    
+                    <div    *ngIf="patientForm.get('birthDate')?.invalid && 
+                            patientForm.get('birthDate')?.errors && 
+                            (patientForm.get('birthDate')?.dirty || patientForm.get('birthDate')?.touched)">
+    
+                        <small class="p-error"
+                            *ngIf="patientForm.get('birthDate')?.hasError('required')">
+                            Este campo es obligatorio.
+                        </small>
+    
+                    </div>
+    
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="address">Dirección<span class="required-input">*</span></label>
+                    <input  id="address" 
+                            type="text" 
+                            placeholder="Ingrese la dirección" 
+                            formControlName="address" 
+                            [class.ng-dirty]="patientForm.get('address')?.touched"
+                            [class.ng-valid]="patientForm.get('address')?.valid && (patientForm.get('address')?.dirty || patientForm.get('address')?.touched)"
+                            [class.ng-invalid]="patientForm.get('address')?.invalid && (patientForm.get('address')?.dirty || patientForm.get('address')?.touched)"
+                            pInputText>
+    
+                    <div    *ngIf="patientForm.get('address')?.invalid && 
+                            patientForm.get('address')?.errors && 
+                            (patientForm.get('address')?.dirty || patientForm.get('address')?.touched)">
+    
+                        <small class="p-error"
+                            *ngIf="patientForm.get('address')?.hasError('required')">
+                            Este campo es obligatorio.
+                        </small>
+    
+                        <small class="p-error"
+                            *ngIf="patientForm.get('address')?.hasError('pattern')">
+                            La dirección puede tener los caracteres especiales .#,-. Recuerda comenzar con una letra.
+                        </small>
 
-                <div    *ngIf="patientForm.get('patientId')?.invalid && 
-                        patientForm.get('patientId')?.errors && 
-                        (patientForm.get('patientId')?.dirty || patientForm.get('patientId')?.touched)">
+                    </div>
+    
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="phone-number">Número de teléfono<span class="required-input">*</span></label>
+                    <input  id="phone-number" 
+                            type="number" 
+                            placeholder="Ingrese el número de teléfono" 
+                            formControlName="phoneNumber" 
+                            [class.ng-dirty]="patientForm.get('phoneNumber')?.touched"
+                            [class.ng-valid]="patientForm.get('phoneNumber')?.valid && (patientForm.get('phoneNumber')?.dirty || patientForm.get('phoneNumber')?.touched)"
+                            [class.ng-invalid]="patientForm.get('phoneNumber')?.invalid && (patientForm.get('phoneNumber')?.dirty || patientForm.get('phoneNumber')?.touched)"
+                            pInputText>
+    
+                    <div    *ngIf="patientForm.get('phoneNumber')?.invalid && 
+                            patientForm.get('phoneNumber')?.errors && 
+                            (patientForm.get('phoneNumber')?.dirty || patientForm.get('phoneNumber')?.touched)">
+    
+                        <small class="p-error"
+                            *ngIf="patientForm.get('phoneNumber')?.hasError('required')">
+                            Este campo es obligatorio.
+                        </small>
 
-                    <small class="p-error"
-                        *ngIf="patientForm.get('patientId')?.hasError('required')">
-                        Este campo es obligatorio.
-                    </small>
-
-                    <small class="p-error"
-                        *ngIf="patientForm.get('patientId')?.hasError('pattern')">
-                        Este campo debe tener una longitud de 10 a 14 caracteres.
-                    </small>
-
+                        <small class="p-error"
+                            *ngIf="patientForm.get('phoneNumber')?.hasError('pattern')">
+                            Este campo debe tener una longitud de 10 a 14 caracteres y no debe ser negativo.
+                        </small>
+    
+                    </div>
+    
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="gender">Sexo<span class="required-input">*</span></label>
+                    <p-dropdown id="gender" [options]="genderList" formControlName="gender"></p-dropdown>
                 </div>
             </div>
-            <div class="field col-12 md:col-6">
-                <label for="firstname">Nombre<span class="required-input">*</span></label>
-                <input  id="firstname" 
-                        type="text" 
-                        placeholder="Ingrese el nombre" 
-                        formControlName="firstName" 
-                        [class.ng-dirty]="patientForm.get('firstName')?.touched"
-                        [class.ng-valid]="patientForm.get('firstName')?.valid && (patientForm.get('firstName')?.dirty || patientForm.get('firstName')?.touched)"
-                        [class.ng-invalid]="patientForm.get('firstName')?.invalid && (patientForm.get('firstName')?.dirty || patientForm.get('firstName')?.touched)"
-                        pInputText>
-                
-                <div    *ngIf="patientForm.get('firstName')?.invalid && 
-                        patientForm.get('firstName')?.errors && 
-                        (patientForm.get('firstName')?.dirty || patientForm.get('firstName')?.touched)">
-
-                    <small class="p-error"
-                        *ngIf="patientForm.get('firstName')?.hasError('required')">
-                        Este campo es obligatorio.
-                    </small>
-
-                    <small class="p-error"
-                        *ngIf="patientForm.get('firstName')?.hasError('pattern')">
-                        El campo debe comenzar con una letra.
-                    </small>
-
-                </div>
-            </div>
-            <div class="field col-12 md:col-6">
-                <label for="lastname">Apellido<span class="required-input">*</span></label>
-                <input  id="lastname" 
-                        type="text" 
-                        placeholder="Ingrese los apellidos" 
-                        formControlName="lastName" 
-                        [class.ng-dirty]="patientForm.get('lastName')?.touched"
-                        [class.ng-valid]="patientForm.get('lastName')?.valid && (patientForm.get('lastName')?.dirty || patientForm.get('lastName')?.touched)"
-                        [class.ng-invalid]="patientForm.get('lastName')?.invalid && (patientForm.get('lastName')?.dirty || patientForm.get('lastName')?.touched)"
-                        pInputText>
-                        
-                <div    *ngIf="patientForm.get('lastName')?.invalid && 
-                        patientForm.get('lastName')?.errors && 
-                        (patientForm.get('lastName')?.dirty || patientForm.get('lastName')?.touched)">
-
-                    <small class="p-error"
-                        *ngIf="patientForm.get('lastName')?.hasError('required')">
-                        Este campo es obligatorio.
-                    </small>
-
-                    <small class="p-error"
-                        *ngIf="patientForm.get('lastName')?.hasError('pattern')">
-                        El campo debe comenzar con una letra.
-                    </small>
-
-                </div>
-            </div>
-            <div class="field col-12 md:col-6">
-                <label for="birth-date">Fecha de nacimiento<span class="required-input">*</span></label>
-                <p-calendar id="birth-date" 
-                            [maxDate]="maxDate" 
-                            [readonlyInput]="true" 
-                            placeholder="Ingrese la fecha de nacimiento" 
-                            formControlName="birthDate"
-                            [class.ng-dirty]="patientForm.get('birthDate')?.touched"
-                            [class.ng-valid]="patientForm.get('birthDate')?.valid && (patientForm.get('birthDate')?.dirty || patientForm.get('birthDate')?.touched)"
-                            [class.ng-invalid]="patientForm.get('birthDate')?.invalid && (patientForm.get('birthDate')?.dirty || patientForm.get('birthDate')?.touched)"
-                            ></p-calendar>
-
-                <div    *ngIf="patientForm.get('birthDate')?.invalid && 
-                        patientForm.get('birthDate')?.errors && 
-                        (patientForm.get('birthDate')?.dirty || patientForm.get('birthDate')?.touched)">
-
-                    <small class="p-error"
-                        *ngIf="patientForm.get('birthDate')?.hasError('required')">
-                        Este campo es obligatorio.
-                    </small>
-
-                </div>
-
-            </div>
-            <div class="field col-12 md:col-6">
-                <label for="address">Dirección<span class="required-input">*</span></label>
-                <input  id="address" 
-                        type="text" 
-                        placeholder="Ingrese la dirección" 
-                        formControlName="address" 
-                        [class.ng-dirty]="patientForm.get('address')?.touched"
-                        [class.ng-valid]="patientForm.get('address')?.valid && (patientForm.get('address')?.dirty || patientForm.get('address')?.touched)"
-                        [class.ng-invalid]="patientForm.get('address')?.invalid && (patientForm.get('address')?.dirty || patientForm.get('address')?.touched)"
-                        pInputText>
-
-                <div    *ngIf="patientForm.get('address')?.invalid && 
-                        patientForm.get('address')?.errors && 
-                        (patientForm.get('address')?.dirty || patientForm.get('address')?.touched)">
-
-                    <small class="p-error"
-                        *ngIf="patientForm.get('address')?.hasError('required')">
-                        Este campo es obligatorio.
-                    </small>
-
-                </div>
-
-            </div>
-            <div class="field col-12 md:col-6">
-                <label for="phone-number">Número de teléfono<span class="required-input">*</span></label>
-                <input  id="phone-number" 
-                        type="number" 
-                        placeholder="Ingrese el número de teléfono" 
-                        formControlName="phoneNumber" 
-                        [class.ng-dirty]="patientForm.get('phoneNumber')?.touched"
-                        [class.ng-valid]="patientForm.get('phoneNumber')?.valid && (patientForm.get('phoneNumber')?.dirty || patientForm.get('phoneNumber')?.touched)"
-                        [class.ng-invalid]="patientForm.get('phoneNumber')?.invalid && (patientForm.get('phoneNumber')?.dirty || patientForm.get('phoneNumber')?.touched)"
-                        pInputText>
-
-                <div    *ngIf="patientForm.get('phoneNumber')?.invalid && 
-                        patientForm.get('phoneNumber')?.errors && 
-                        (patientForm.get('phoneNumber')?.dirty || patientForm.get('phoneNumber')?.touched)">
-
-                    <small class="p-error"
-                        *ngIf="patientForm.get('phoneNumber')?.hasError('required')">
-                        Este campo es obligatorio.
-                    </small>
-
-                </div>
-
-            </div>
-            <div class="field col-12 md:col-6">
-                <label for="gender">Sexo<span class="required-input">*</span></label>
-                <p-dropdown id="gender" [options]="genderList" formControlName="gender"></p-dropdown>
-            </div>
-        </div>
-    </form>
+        </form>
+    </ng-template>
     <ng-template pTemplate="footer">
         <div class="flex align-items-end justify-content-end" *ngIf="isEdit">
-            <p-button label="Editar" [disabled]="patientForm.invalid || !patientForm.dirty" (onClick)="updatePatient()"></p-button>
+            <p-button label="Editar" [disabled]="patientForm.invalid || !patientForm.dirty" (onClick)="sendPatientData()"></p-button>
         </div>
-        <div class="flex align-items-end justify-content-end" *ngIf="!isEdit">
-            <p-button label="Crear" [disabled]="patientForm.invalid" (onClick)="savePatient()"></p-button>
+        <div class="flex justify-content-between" *ngIf="!isEdit">
+            <p-button label="Anterior" (onClick)="prevPage()" icon="pi pi-angle-left"></p-button>
+            <p-button label="Siguiente" [disabled]="patientForm.invalid || !patientForm.dirty" (onClick)="savePatient()"></p-button>
         </div>
     </ng-template>
-</p-panel>
+    <p-confirmDialog header="Confirmation" key="patient" width="425"></p-confirmDialog>
+</p-card>

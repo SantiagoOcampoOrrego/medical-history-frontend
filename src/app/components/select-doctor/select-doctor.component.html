@@ -1,0 +1,21 @@
+<div style="height: 18rem;">
+    <p-card>
+        <ng-template pTemplate="title">
+            Seleccionar doctor
+        </ng-template>
+        <ng-template pTemplate="subtitle">
+            Por favor, seleccione la credencial del doctor.
+        </ng-template>
+        <ng-template pTemplate="content">
+            <div class="flex justify-content-center">
+                <p-multiSelect [options]="doctors" [(ngModel)]="selectedDoctor" [selectionLimit]="1" optionLabel="doctorId" optionValue="doctorId"></p-multiSelect>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <div class="flex align-items-end justify-content-end">
+                <p-button label="Siguiente" (onClick)="saveDoctor()" icon="pi pi-angle-right" iconPos="right"></p-button>
+            </div>
+        </ng-template>
+    </p-card>
+
+</div>

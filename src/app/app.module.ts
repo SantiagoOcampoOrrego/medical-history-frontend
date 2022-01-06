@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {InputTextModule} from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
@@ -35,12 +34,22 @@ import {DialogModule} from 'primeng/dialog';
 import { MenuComponent } from './components/menu/menu.component';
 import { DoctorsComponent } from './components/doctors/doctors.component';
 import { ProceduresComponent } from './components/procedures/procedures.component';
-import { ProcedureFormComponent } from './components/procedure-form/procedure-form.component';
+import { StepsFormComponent } from './components/steps-form/steps-form.component';
+import { AllergiesComponent } from './components/allergies/allergies.component';
+import { FamiliarDiseasesComponent } from './components/familiar-diseases/familiar-diseases.component';
+import {InputSwitchModule} from 'primeng/inputswitch';
+import { HistoryTabComponent } from './components/history-tab/history-tab.component';
+import { ShowPatientComponent } from './components/show-patient/show-patient.component';
+import { ShowHistoryComponent } from './components/show-history/show-history.component';
+import { ShowProcedureComponent } from './components/show-procedure/show-procedure.component';
+import { ShowAllergiesComponent } from './components/show-allergies/show-allergies.component';
+import { ShowDiseasesComponent } from './components/show-diseases/show-diseases.component';
+import { SelectDoctorComponent } from './components/select-doctor/select-doctor.component';
+import {MultiSelectModule} from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     PatientFormComponent,
     DoctorFormComponent,
     HistoryFormComponent,
@@ -48,7 +57,16 @@ import { ProcedureFormComponent } from './components/procedure-form/procedure-fo
     MenuComponent,
     DoctorsComponent,
     ProceduresComponent,
-    ProcedureFormComponent
+    StepsFormComponent,
+    AllergiesComponent,
+    FamiliarDiseasesComponent,
+    HistoryTabComponent,
+    ShowPatientComponent,
+    ShowHistoryComponent,
+    ShowProcedureComponent,
+    ShowAllergiesComponent,
+    ShowDiseasesComponent,
+    SelectDoctorComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +94,9 @@ import { ProcedureFormComponent } from './components/procedure-form/procedure-fo
     ToolbarModule,
     TableModule,
     ConfirmDialogModule,
-    DialogModule
+    DialogModule,
+    InputSwitchModule,
+    MultiSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

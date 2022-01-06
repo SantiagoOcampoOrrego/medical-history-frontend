@@ -27,7 +27,7 @@ export class MedicalHistoryService {
   }
 
   public getHistoryByPatientId(patientId: number){
-    return this.http.get<any>(environment.protocol + environment.apiUrl + "/historia-clinica/"+patientId);
+    return this.http.get<any>(environment.protocol + environment.apiUrl + "/historia-clinica/paciente?id="+patientId);
   }
 
 }

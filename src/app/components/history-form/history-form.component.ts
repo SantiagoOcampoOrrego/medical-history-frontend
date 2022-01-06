@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MedicalHistoryService } from 'src/app/services/medical-history.service';
+import { StepsService } from 'src/app/services/steps.service';
 
 @Component({
   selector: 'app-history-form',
@@ -9,75 +9,31 @@ import { MedicalHistoryService } from 'src/app/services/medical-history.service'
 })
 export class HistoryFormComponent implements OnInit {
 
-  constructor(private historyService: MedicalHistoryService) { }
-
-  ngOnInit(): void {
-  }
-
   historyForm = new FormGroup({
-    patientId: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10,14}$')]),
-    currentMedication: new FormControl('', Validators.pattern('^[A-Za-z][A-Za-z ]*')),
+    currentMedication: new FormControl(''),
     doExercise: new FormControl(false, Validators.required),
     alcoholConsumption: new FormControl(false, Validators.required),
     smoker: new FormControl(false, Validators.required),
-    weight: new FormControl('', Validators.required),
-    height: new FormControl('', Validators.required),
+    weight: new FormControl(0.10, [Validators.required, Validators.min(0.10), Validators.max(300)]),
+    height: new FormControl(0.30, [Validators.required, Validators.min(0.30), Validators.max(2.70)]),
     additionalComment: new FormControl('')
   });
 
-  doExercise: boolean = false;
-  alcoholConsumption: boolean = false;
-  smoker: boolean = false;
+  constructor(private stepService: StepsService) { }
 
-  public saveHistory(){
-    if(this.historyForm.invalid){
-      console.log('HAY ERRORES');
-    }
-    else{
-      let history = {
-        historyId: 0,
-        patientId: this.historyForm.get('patientId')?.value,
-        currentMedication: this.historyForm.get('currentMedication')?.value,
-        doExercise: this.historyForm.get('doExercise')?.value,
-        alcoholConsumption: this.historyForm.get('alcoholConsumption')?.value,
-        smoker: this.historyForm.get('smoker')?.value,
-        weight: this.historyForm.get('weight')?.value,
-        height: this.historyForm.get('height')?.value,
-        additionalComment: this.historyForm.get('additionalComment')?.value
-      };
-
-      this.historyService.sendMedicalHistory(history).subscribe(res => {
-        console.log(res);
-      })
+  ngOnInit(): void {
+    if(this.stepService.historyForm !== undefined){
+      this.historyForm = this.stepService.historyForm;
     }
   }
 
-  public mostrar(){
-    let history = {
-      historyId: 0,
-      patientId: this.historyForm.get('patientId')?.value,
-      currentMedication: this.historyForm.get('currentMedication')?.value,
-      doExercise: this.historyForm.get('doExercise')?.value,
-      alcoholConsumption: this.historyForm.get('alcoholConsumption')?.value,
-      smoker: this.historyForm.get('smoker')?.value,
-      weight: this.historyForm.get('weight')?.value,
-      height: this.historyForm.get('height')?.value,
-      additionalComment: this.historyForm.get('additionalComment')?.value
-    };
+  public saveHistory(){
+    this.stepService.historyForm = this.historyForm;
+    this.stepService.nextIndex();
+  }
 
-    if(!this.historyForm.invalid){console.log(history);}
+  public prevPage(){
+    this.stepService.previousIndex();
   }
 
 }
-
-/*export class MedicalHistory {
-  public historyId: number | undefined;
-  public patientId: number | undefined;
-  public currentMedication: string | undefined;
-  public doExercise: boolean | undefined;
-  public alcoholConsumption: boolean | undefined;
-  public smoker: boolean | undefined;
-  public weight: number | undefined;
-  public height: number | undefined;
-  public additionalComment: string | undefined;
-}*/

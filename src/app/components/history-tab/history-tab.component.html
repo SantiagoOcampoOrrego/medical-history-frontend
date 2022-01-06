@@ -1,0 +1,17 @@
+<app-menu></app-menu>
+<p-card>
+    <ng-template pTemplate="title">
+        <div class="flex justify-content-center">
+            Historia del paciente
+        </div>
+    </ng-template>
+    <ng-template pTemplate="content">
+        <div *ngIf="isLoaded">
+            <app-show-patient [patient]="patient"></app-show-patient>
+            <app-show-history [history]="history"></app-show-history>
+            <app-show-allergies [allergies]="drugAllergies" [historyId]="historyId"></app-show-allergies>
+            <app-show-diseases [diseases]="diseases" [historyId]="historyId"></app-show-diseases>
+            <app-show-procedure [procedures]="procedures" [historyId]="historyId"></app-show-procedure>
+        </div>
+    </ng-template>
+</p-card>

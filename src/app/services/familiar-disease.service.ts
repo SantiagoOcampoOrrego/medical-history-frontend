@@ -30,4 +30,8 @@ export class FamiliarDiseaseService {
     return this.http.get<any>(environment.protocol + environment.apiUrl + "/enfermedad-familiar/todos");
   }
 
+  public getAllFamiliarDiseasesByHistoryId(historyId: number){
+    return this.http.get<any>(environment.protocol + environment.apiUrl + "/enfermedad-familiar/historia?id=" + historyId);
+  }
+
 }

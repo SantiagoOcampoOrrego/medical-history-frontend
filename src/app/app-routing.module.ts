@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DoctorsComponent } from './components/doctors/doctors.component';
+import { HistoryTabComponent } from './components/history-tab/history-tab.component';
 import { PatientsComponent } from './components/patients/patients.component';
-import { ProceduresComponent } from './components/procedures/procedures.component';
+import { StepsFormComponent } from './components/steps-form/steps-form.component';
 
 const routes: Routes = [
   { path: 'pacientes', component: PatientsComponent},
   { path: 'doctores', component: DoctorsComponent},
-  { path: 'procedimientos', component: ProceduresComponent}
+  { path: 'historia/:patientId', component: HistoryTabComponent},
+  { path: 'steps', component: StepsFormComponent},
 ];
 
 @NgModule({

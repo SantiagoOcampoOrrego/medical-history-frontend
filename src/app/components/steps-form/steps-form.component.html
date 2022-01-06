@@ -1,0 +1,27 @@
+<p-card>
+    <p-steps    [model]="dialogPages" 
+                [(activeIndex)]="dialogPageIndex" 
+                [readonly]="true">
+    </p-steps>
+</p-card>
+
+<div [ngSwitch]="dialogPageIndex">
+    <div *ngSwitchCase="PageNames.DoctorPage">
+        <app-select-doctor></app-select-doctor>
+    </div>
+    <div *ngSwitchCase="PageNames.PatientPage">
+        <app-patient-form></app-patient-form>
+    </div>
+    <div *ngSwitchCase="PageNames.HistoryPage">
+        <app-history-form></app-history-form>
+    </div>
+    <div *ngSwitchCase="PageNames.AllergyPage">
+        <app-allergies></app-allergies>
+    </div>
+    <div *ngSwitchCase="PageNames.FamiliarDiseasePage">
+        <app-familiar-diseases></app-familiar-diseases>
+    </div>
+    <div *ngSwitchCase="PageNames.ProcedurePage">
+        <app-procedures (final)="saveHistory()"></app-procedures>
+    </div>
+</div>
